@@ -14,7 +14,8 @@ Ext.define('Ux.field.Token', {
         },
         tokenValue : null,
         delimiter  : ',',
-        tokenTpl   : '<tpl for="."><a class="ux-token" data-idx="{#}">{.}<span href="#" class="ux-token-clear"></span></a></tpl>'
+        tokenTpl   : '<tpl for="."><a class="ux-token" data-idx="{#}">{.}<span href="#" class="ux-token-clear"></span></a></tpl>',
+        largeTapArea: false
     },
 
     applyTokenTpl : function(tpl) {
@@ -124,18 +125,32 @@ Ext.define('Ux.field.Token', {
     },
 
     onTokenElTap : function(e) {
-        var target = e.getTarget('span.ux-token-clear', null, true),
-            tokenValue, anchor, idx, item;
+        var target, tokenValue, anchor, idx, item;
+        
+        if(!this.getLargeTapArea()){
+            target = e.getTarget('span.ux-token-clear', null, true);
+            if (target) {
+                tokenValue = this.getTokenValue();
+                anchor     = target.up('a.ux-token');
+                idx        = anchor.getAttribute('data-idx') - 1;
+                item       = tokenValue[idx];
 
-        if (target) {
-            tokenValue = this.getTokenValue();
-            anchor     = target.up('a.ux-token');
-            idx        = anchor.getAttribute('data-idx') - 1;
-            item       = tokenValue[idx];
+                this.setValue(
+                    Ext.Array.remove(tokenValue, item)
+                );
+            }
+        }
+        else {
+            target = e.getTarget('a.ux-token', null, true);
+            if (target) {
+                tokenValue = this.getTokenValue();
+                idx        = target.getAttribute('data-idx') - 1;
+                item       = tokenValue[idx];
 
-            this.setValue(
-                Ext.Array.remove(tokenValue, item)
-            );
+                this.setValue(
+                    Ext.Array.remove(tokenValue, item)
+                );
+            }            
         }
     },
 
