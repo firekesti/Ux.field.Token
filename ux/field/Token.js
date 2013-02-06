@@ -91,12 +91,18 @@ Ext.define('Ux.field.Token', {
 
     doKeyUp : function(me, e) {
         this.callParent([me, e]);
-
+        var lastChar = me.getValue()[me.getValue().length-1];
+        if(lastChar == me.getDelimiter()){
+            this.syncValues();
+        }
         this.syncSize();
     },
 
     doAction : function() {
-        this.syncValues();
+        var lastChar = this.getValue()[this.getValue().length-1];
+        if(lastChar != this.getDelimiter()){
+            this.syncValues();
+        }
     },
 
     onBlur : function(e, t) {
@@ -107,9 +113,9 @@ Ext.define('Ux.field.Token', {
 
     syncValues : function() {
         var tokenValue = this.getTokenValue() || [],
-            inputValue = this.getValue().split(this.getDelimiter()),
+            endingDelimiter = new RegExp(this.getDelimiter() + '$')
+            inputValue = this.getValue().replace(endingDelimiter,'').trim().split(this.getDelimiter()),
             newValue = tokenValue.concat(inputValue);
-
         this._value = '';
 
         this.setValue(newValue);
