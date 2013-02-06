@@ -115,9 +115,11 @@ Ext.define('Ux.field.Token', {
         var tokenValue = this.getTokenValue() || [],
             endingDelimiter = new RegExp(this.getDelimiter() + '$')
             inputValue = this.getValue().replace(endingDelimiter,'').trim().split(this.getDelimiter()),
-            newValue = tokenValue.concat(inputValue);
+            newValue = tokenValue;
         this._value = '';
-
+        if(inputValue != ""){
+            newValue = tokenValue.concat(inputValue);
+        }
         this.setValue(newValue);
     },
 
