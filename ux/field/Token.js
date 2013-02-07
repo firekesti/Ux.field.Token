@@ -20,6 +20,18 @@ Ext.define('Ux.field.Token', {
         tokenOnBlur: true
     },
 
+    addToken: function(token)
+    {
+        var tokenValue = this.getTokenValue() || [],
+            endingDelimiter = new RegExp(this.getDelimiter() + '$')
+            tokenToAdd = token.replace(endingDelimiter,'').trim();
+        this._value = '';
+        if(tokenToAdd != ""){
+            newValue = tokenValue.concat(tokenToAdd);
+        }
+        this.setValue(newValue);
+    },
+
     applyTokenTpl : function(tpl) {
         return new Ext.XTemplate(tpl);
     },
