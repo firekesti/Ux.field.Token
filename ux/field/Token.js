@@ -16,7 +16,8 @@ Ext.define('Ux.field.Token', {
         delimiter  : ',',
         tokenTpl   : '<tpl for="."><a class="ux-token" data-idx="{#}">{.}<span href="#" class="ux-token-clear"></span></a></tpl>',
         largeTapArea: false,
-        tokenOnEnter: true
+        tokenOnEnter: true,
+        tokenOnBlur: true
     },
 
     applyTokenTpl : function(tpl) {
@@ -113,8 +114,9 @@ Ext.define('Ux.field.Token', {
 
     onBlur : function(e, t) {
         this.callParent([e, t]);
-
-        this.syncValues();
+        if(this.getTokenOnBlur()){
+            this.syncValues();            
+        }
     },
 
     syncValues : function() {
