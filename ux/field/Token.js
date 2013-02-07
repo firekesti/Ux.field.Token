@@ -76,7 +76,8 @@ Ext.define('Ux.field.Token', {
             return;
         }
 
-        if (this.getTokenValue().length) {
+        var tokenValue = this.getTokenValue() || [];
+        if (tokenValue.length) {
             this.showClearIcon();
         }
 
@@ -157,9 +158,11 @@ Ext.define('Ux.field.Token', {
     showClearIcon : function() {
         var me         = this,
             value      = me.getTokenValue(),
-            valueValid = value !== undefined && value !== null && value !== '' && value.length;
+            nonTokenValue = me._value;
+            valueValid = value !== undefined && value !== null && value !== '' && value.length
+            nonTokenValueValid = nonTokenValue !== undefined && nonTokenValue !== null && nonTokenValue !== '' && nonTokenValue.length;            
 
-        if (me.getClearIcon() && !me.getDisabled() && !me.getReadOnly() && valueValid) {
+        if (me.getClearIcon() && !me.getDisabled() && !me.getReadOnly() && (valueValid || nonTokenValueValid)) {
             me.element.addCls(Ext.baseCSSPrefix + 'field-clearable');
         }
 
