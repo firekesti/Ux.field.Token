@@ -15,7 +15,8 @@ Ext.define('Ux.field.Token', {
         tokenValue : null,
         delimiter  : ',',
         tokenTpl   : '<tpl for="."><a class="ux-token" data-idx="{#}">{.}<span href="#" class="ux-token-clear"></span></a></tpl>',
-        largeTapArea: false
+        largeTapArea: false,
+        tokenOnEnter: true
     },
 
     applyTokenTpl : function(tpl) {
@@ -101,6 +102,9 @@ Ext.define('Ux.field.Token', {
     },
 
     doAction : function() {
+        if(!this.getTokenOnEnter()){
+            return;
+        }
         var lastChar = this.getValue()[this.getValue().length-1];
         if(lastChar != this.getDelimiter()){
             this.syncValues();
